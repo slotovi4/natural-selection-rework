@@ -1,0 +1,1 @@
+export { initArea } from './area';
