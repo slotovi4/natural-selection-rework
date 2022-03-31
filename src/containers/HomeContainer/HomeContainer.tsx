@@ -1,3 +1,3 @@
-import { Home } from 'src/components';
+import { Area } from 'src/components';
 
-export const HomeContainer = () => <Home />;
+export const HomeContainer = () => <Area />;
