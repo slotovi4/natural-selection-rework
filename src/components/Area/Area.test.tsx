@@ -1,11 +1,11 @@
-import Home from './Home';
+import Area from './Area';
 
 import { render } from 'react-dom';
 
-describe('Test Home component', () => {
+describe('Test Area component', () => {
 	it('Renders without crashing', () => {
 		const app = document.createElement('div');
 
-		render(<Home />, app);
+		render(<Area />, app);
 	});
 });
