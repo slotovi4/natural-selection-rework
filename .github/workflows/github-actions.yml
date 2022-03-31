@@ -1,0 +1,29 @@
+name: PR Test
+on: [pull_request]
+env:
+    COMPOSER_MEMORY_LIMIT: -1
+    PARALLEL_TESTS: true
+jobs:
+    node-tests:
+        runs-on: ubuntu-20.04
+        name: Test & build node
+        steps:
+            # —— Setup Github actions —————————————————————————————————————————————
+            - name: Git checkout
+              uses: actions/checkout@v2
+            # —— Node ——————————————————————————————————————————————————————————————
+            - uses: actions/setup-node@v2
+              with:
+                node-version: '16'
+                cache: 'yarn'
+            - name: Check Node Version
+              run: node -v
+            ## —— YARN ———————————————————————————————————————————————————————————
+            - name: Yarn install
+              run: yarn
+            - name: Yarn lint
+              run: yarn lint-ci
+            - name: Yarn test
+              run: yarn test-ci
+            - name: Yarn build
+              run: yarn build
