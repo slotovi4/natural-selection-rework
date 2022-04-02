@@ -1,1 +1,1 @@
-export { initArea } from './area';
+export { NaturalSelectionConstructor } from './NaturalSelectionConstructor';
