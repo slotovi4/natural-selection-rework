@@ -1,21 +1,29 @@
+import { getNutritionalValueColor, randomizeNutritionalValue } from './helpers';
+
 import { CanvasElement } from '../CanvasElement';
 
 export abstract class Food extends CanvasElement {
 	private readonly _params: IFoodParams;
 
+	/**
+	 * Питательная ценность пищи
+	 */
+	private readonly _nutritionalValue: TNutritionalValue;
+
 	public constructor({ params, ...rest }: IProps) {
 		super(rest);
 
 		this._params = params;
+		this._nutritionalValue = randomizeNutritionalValue();
 	}
 
 	protected draw() {
 		const { startX, startY, size } = this._params;
 
 		this._ctx.beginPath();
-		this._ctx.lineWidth = 1;
+		this._ctx.fillStyle = getNutritionalValueColor(this._nutritionalValue);
 		this._ctx.arc(startX, startY, size, 0, 2 * Math.PI);
-		this._ctx.stroke();
+		this._ctx.fill();
 		this._ctx.closePath();
 	}
 }
@@ -31,3 +39,5 @@ interface IFoodParams {
 	startY: number;
 	size: number;
 }
+
+export type TNutritionalValue = 'low' | 'middle' | 'hight';
