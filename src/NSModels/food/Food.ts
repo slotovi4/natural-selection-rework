@@ -13,6 +13,7 @@ export abstract class Food extends CanvasElement {
 		const { startX, startY, size } = this._params;
 
 		this._ctx.beginPath();
+		this._ctx.lineWidth = 1;
 		this._ctx.arc(startX, startY, size, 0, 2 * Math.PI);
 		this._ctx.stroke();
 		this._ctx.closePath();
