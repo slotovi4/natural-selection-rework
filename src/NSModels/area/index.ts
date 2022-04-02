@@ -1,1 +1,1 @@
-export { initArea } from './initArea';
+export { AreaConstructor } from './AreaConstructor';
