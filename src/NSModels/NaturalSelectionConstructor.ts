@@ -10,6 +10,7 @@ export class NaturalSelectionConstructor extends NaturalSelection {
 	private init() {
 		this.initArea();
 		this.initFood();
+		this.initCreature();
 	}
 }
 
