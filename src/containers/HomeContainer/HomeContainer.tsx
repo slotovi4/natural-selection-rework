@@ -7,10 +7,10 @@ import { Canvas } from 'src/shared';
 import type { ChangeEvent } from 'react';
 
 export const HomeContainer = () => {
-	const areaSize = 500;
+	const areaSize = 800;
 	const areaBorderSize = 1;
 	const areaCanvasRef = useRef<HTMLCanvasElement | null>(null);
-	const creaturesCanvasRef = useRef<HTMLCanvasElement | null>(null);
+	const creatureCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
 	const [foodCountPercent, setFoodCountPercent] = useState(50);
 	const [didStartSelection, setDidStartSelection] = useState(true);
@@ -21,13 +21,15 @@ export const HomeContainer = () => {
 		}
 
 		const areaCtx = areaCanvasRef.current?.getContext('2d');
+		const creatureCtx = creatureCanvasRef.current?.getContext('2d');
 
-		if (areaCtx) {
+		if (areaCtx && creatureCtx) {
 			new NaturalSelectionConstructor({
 				areaCtx,
 				areaSize,
 				areaBorderSize,
-				foodCountPercent
+				foodCountPercent,
+				creatureCtx
 			});
 		}
 	}, [didStartSelection, foodCountPercent]);
@@ -53,7 +55,7 @@ export const HomeContainer = () => {
 
 					<Canvas
 						className={styles['HomeContainer-Canvas']}
-						ref={creaturesCanvasRef}
+						ref={creatureCanvasRef}
 						width={areaSize}
 						height={areaSize}
 					/>
