@@ -3,7 +3,7 @@ import { getNutritionalValueColor, randomizeNutritionalValue } from './helpers';
 import { CanvasElement } from '../CanvasElement';
 
 export abstract class Food extends CanvasElement {
-	private readonly _params: IFoodParams;
+	private readonly _params: IProps['params'];
 
 	/**
 	 * Питательная ценность пищи
