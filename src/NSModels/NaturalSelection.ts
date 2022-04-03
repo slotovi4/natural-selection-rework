@@ -6,6 +6,9 @@ export abstract class NaturalSelection {
 	private readonly _areaSize: IProps['areaSize'];
 	private readonly _areaBorderSize: IProps['areaBorderSize'];
 	private readonly _areaCtx: IProps['areaCtx'];
+	private readonly _foodCountPercent: IProps['foodCountPercent'];
+
+	private readonly _maxFoodCount = 50;
 
 	private _foodSize: number;
 	private _foodList: FoodConstructor[] = [];
@@ -15,7 +18,9 @@ export abstract class NaturalSelection {
 		this._areaBorderSize = props.areaBorderSize;
 		this._areaSize = props.areaSize;
 		this._areaCtx = props.areaCtx;
-		this._foodSize = Math.floor(this._areaSize / 50);
+
+		this._foodCountPercent = props.foodCountPercent;
+		this._foodSize = Math.floor(this._areaSize / this._maxFoodCount);
 	}
 
 	protected initArea() {
@@ -23,7 +28,9 @@ export abstract class NaturalSelection {
 	}
 
 	protected initFood() {
-		for (let i = 0; i < 100; i++) {
+		const foodCount = (this._maxFoodCount / 100) * this._foodCountPercent;
+
+		for (let i = 0; i < foodCount; i++) {
 			const foodParams = this.randomizeFoodParam();
 			const food = new FoodConstructor({ ctx: this._areaCtx, params: foodParams });
 
@@ -46,6 +53,7 @@ export abstract class NaturalSelection {
 interface IProps {
 	areaSize: number;
 	areaBorderSize: number;
+	foodCountPercent: number;
 	areaCtx: CanvasRenderingContext2D;
 }
 
