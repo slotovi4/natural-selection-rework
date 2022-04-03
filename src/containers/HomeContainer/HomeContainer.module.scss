@@ -1,0 +1,16 @@
+.HomeContainer {
+	&-CanvasContainer {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 40px;
+	}
+	
+	&-Canvas {
+		border-radius: 2px;
+
+		&:last-child {
+			position: absolute;
+		}
+	}
+}
