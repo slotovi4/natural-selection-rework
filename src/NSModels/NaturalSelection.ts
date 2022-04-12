@@ -1,21 +1,22 @@
 import { AreaConstructor } from './area';
 import { FoodConstructor } from './food';
-import { randomValue } from './math.helpers';
+import { randomBoolean, randomValue } from './math.helpers';
 import { CreatureConstructor } from './creature';
 
 export abstract class NaturalSelection {
-	private readonly _areaSize: IProps['areaSize'];
+	protected readonly _creatureCtx: IProps['creatureCtx'];
+	protected readonly _areaSize: IProps['areaSize'];
+	protected _creatureList: CreatureConstructor[] = [];
+
 	private readonly _areaBorderSize: IProps['areaBorderSize'];
 	private readonly _areaCtx: IProps['areaCtx'];
-	private readonly _creatureCtx: IProps['creatureCtx'];
 	private readonly _foodCountPercent: IProps['foodCountPercent'];
-
 	private readonly _maxFoodCount = 100;
 
 	private _foodSize: number;
 	private _creatureSize: number;
+	private _creatureSensitivityRadius: number;
 	private _foodList: FoodConstructor[] = [];
-	private _creatureList: CreatureConstructor[] = [];
 	private _area: AreaConstructor | null = null;
 
 	public constructor(props: IProps) {
@@ -27,6 +28,7 @@ export abstract class NaturalSelection {
 		this._foodCountPercent = props.foodCountPercent;
 		this._foodSize = Math.floor(this._areaSize / this._maxFoodCount);
 		this._creatureSize = Math.floor(this._areaSize / 80);
+		this._creatureSensitivityRadius = this._creatureSize * 2;
 	}
 
 	protected initArea() {
@@ -45,7 +47,7 @@ export abstract class NaturalSelection {
 	}
 
 	protected initCreature() {
-		for (let i = 0; i < 50; i++) {
+		for (let i = 0; i < 100; i++) {
 			const creatureParams = this.randomizeCreatureParams();
 			const creature = new CreatureConstructor({ ctx: this._creatureCtx, params: creatureParams });
 
@@ -54,8 +56,7 @@ export abstract class NaturalSelection {
 	}
 
 	private randomizeFoodParams(): TFoodProps['params'] {
-		const min = Math.ceil(this._areaBorderSize / 2) + this._foodSize;
-		const max = this._areaSize - min;
+		const { min, max } = this.getMinMaxStartPoints(this._foodSize);
 
 		return {
 			startX: randomValue({ min, max }),
@@ -65,18 +66,25 @@ export abstract class NaturalSelection {
 	}
 
 	private randomizeCreatureParams(): TCreatureProps['params'] {
-		const min = Math.ceil(this._areaBorderSize / 2) + this._creatureSize;
-		const max = this._areaSize - min;
+		const { min, max } = this.getMinMaxStartPoints(this._creatureSensitivityRadius);
 
 		const randomAxlePosition = randomValue({ min, max });
-		const randomMinMaxPosition = Math.random() >= 0.5 ? min : max;
-		const isYAxle = Math.random() >= 0.5;
+		const randomMinMaxPosition = randomBoolean() ? min : max;
+		const isYAxle = randomBoolean();
 
 		return {
 			startX: isYAxle ? randomMinMaxPosition : randomAxlePosition,
 			startY: isYAxle ? randomAxlePosition : randomMinMaxPosition,
-			size: this._creatureSize
+			size: this._creatureSize,
+			sensitivityRadius: this._creatureSensitivityRadius
 		};
+	}
+
+	private getMinMaxStartPoints(elementSize: number) {
+		const min = Math.ceil(this._areaBorderSize / 2) + elementSize;
+		const max = this._areaSize - min;
+
+		return { min, max };
 	}
 }
 
