@@ -1,7 +1,7 @@
 export const randomValue = ({ min, max }: IRandomValue) => {
 	const value = min + (Math.random() * (max - min));
 
-	return Number(value.toFixed(2));
+	return Math.round(value);
 };
 
 export const positiveOrNegativeValue = () => Math.random() > 0.5 ? 1 : -1;
