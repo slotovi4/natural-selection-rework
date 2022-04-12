@@ -6,8 +6,8 @@ import { radiansToDegrees, degreesToRadians, positiveOrNegativeValue, randomValu
 import type { IDirectionParams } from './Creature';
 
 export class CreatureConstructor extends Creature {
-	private _step = 0;
 	private _stepsBeforeChangeDirection = getRandomStepsBeforeChangeDirectionValue(this.speed);
+	private _step = this._stepsBeforeChangeDirection;
 
 	public constructor(props: TProps) {
 		super(props);
