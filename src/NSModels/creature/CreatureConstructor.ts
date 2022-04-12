@@ -17,7 +17,7 @@ export class CreatureConstructor extends Creature {
 
 	public update() {
 		this.realisticMove();
-		this.checkBounce({ maxAreaSize: this._width, minAreaSize: 0 });
+		this.bounce();
 		this.draw();
 	}
 

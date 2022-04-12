@@ -78,27 +78,18 @@ export abstract class Creature extends CanvasElement {
 	}
 
 	/**
-	 * Проверка на контакт существа с границей области
-	 * @param areaParams размеры области 
+	 * Обрабатывает отскок существа от области
 	 */
-	protected checkBounce({ maxAreaSize, minAreaSize }: ICheckBounceParams) {
-		const centerX = this._x + (this._params.size) / 2;
-		const centerY = this._y + (this._params.size) / 2;
+	protected bounce() {
+		const newX = this._x + (this._dx * this.speed);
+		const newY = this._y + (this._dy * this.speed);
 
-		if (centerX + this._sensitivityRadius <= minAreaSize ||
-			centerX + this._sensitivityRadius >= maxAreaSize ||
-			centerY + this._sensitivityRadius <= minAreaSize ||
-			centerY + this._sensitivityRadius >= maxAreaSize
-		) {
-			this._speed = 0;
+		if (newX > this._width - this._sensitivityRadius || newX < this._sensitivityRadius) {
+			this._dx *= -1;
 		}
 
-		if (centerX - this._sensitivityRadius <= minAreaSize ||
-			centerX - this._sensitivityRadius >= maxAreaSize ||
-			centerY - this._sensitivityRadius <= minAreaSize ||
-			centerY - this._sensitivityRadius >= maxAreaSize
-		) {
-			this._speed = 0;
+		if (newY > this._height - this._sensitivityRadius || newY < this._sensitivityRadius) {
+			this._dy *= -1;
 		}
 	}
 }
@@ -114,11 +105,6 @@ interface ICreatureParams {
 	startY: number;
 	size: number;
 	sensitivityRadius: number;
-}
-
-interface ICheckBounceParams {
-	maxAreaSize: number;
-	minAreaSize: number;
 }
 
 export interface IDirectionParams {
