@@ -8,7 +8,6 @@ export abstract class NaturalSelection {
 	protected readonly _areaSize: IProps['areaSize'];
 	protected _creatureList: CreatureConstructor[] = [];
 
-	private readonly _areaBorderSize: IProps['areaBorderSize'];
 	private readonly _areaCtx: IProps['areaCtx'];
 	private readonly _foodCountPercent: IProps['foodCountPercent'];
 	private readonly _maxFoodCount = 100;
@@ -20,7 +19,6 @@ export abstract class NaturalSelection {
 	private _area: AreaConstructor | null = null;
 
 	public constructor(props: IProps) {
-		this._areaBorderSize = props.areaBorderSize;
 		this._areaSize = props.areaSize;
 		this._areaCtx = props.areaCtx;
 		this._creatureCtx = props.creatureCtx;
@@ -32,7 +30,7 @@ export abstract class NaturalSelection {
 	}
 
 	protected initArea() {
-		this._area = new AreaConstructor({ ctx: this._areaCtx, borderSize: this._areaBorderSize });
+		this._area = new AreaConstructor({ ctx: this._areaCtx });
 	}
 
 	protected initFood() {
@@ -47,7 +45,7 @@ export abstract class NaturalSelection {
 	}
 
 	protected initCreature() {
-		for (let i = 0; i < 100; i++) {
+		for (let i = 0; i < 200; i++) {
 			const creatureParams = this.randomizeCreatureParams();
 			const creature = new CreatureConstructor({ ctx: this._creatureCtx, params: creatureParams });
 
@@ -81,7 +79,7 @@ export abstract class NaturalSelection {
 	}
 
 	private getMinMaxStartPoints(elementSize: number) {
-		const min = Math.ceil(this._areaBorderSize / 2) + elementSize;
+		const min = elementSize;
 		const max = this._areaSize - min;
 
 		return { min, max };
@@ -90,7 +88,6 @@ export abstract class NaturalSelection {
 
 interface IProps {
 	areaSize: number;
-	areaBorderSize: number;
 	foodCountPercent: number;
 	areaCtx: CanvasRenderingContext2D;
 	creatureCtx: CanvasRenderingContext2D;

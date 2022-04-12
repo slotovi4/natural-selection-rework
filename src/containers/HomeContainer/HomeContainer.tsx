@@ -8,7 +8,6 @@ import type { ChangeEvent } from 'react';
 
 export const HomeContainer = () => {
 	const areaSize = 800;
-	const areaBorderSize = 1;
 	const areaCanvasRef = useRef<HTMLCanvasElement | null>(null);
 	const creatureCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -27,7 +26,6 @@ export const HomeContainer = () => {
 			new NaturalSelectionConstructor({
 				areaCtx,
 				areaSize,
-				areaBorderSize,
 				foodCountPercent,
 				creatureCtx
 			});
