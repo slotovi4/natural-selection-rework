@@ -7,6 +7,7 @@ export abstract class NaturalSelection {
 	protected readonly _creatureCtx: IProps['creatureCtx'];
 	protected readonly _areaSize: IProps['areaSize'];
 	protected _creatureList: CreatureConstructor[] = [];
+	protected _foodList: FoodConstructor[] = [];
 
 	private readonly _areaCtx: IProps['areaCtx'];
 	private readonly _foodCountPercent: IProps['foodCountPercent'];
@@ -15,15 +16,14 @@ export abstract class NaturalSelection {
 	private _foodSize: number;
 	private _creatureSize: number;
 	private _creatureSensitivityRadius: number;
-	private _foodList: FoodConstructor[] = [];
-	private _area: AreaConstructor | null = null;
+	private _area: AreaConstructor | null = null; // TODO
 
 	public constructor(props: IProps) {
 		this._areaSize = props.areaSize;
 		this._areaCtx = props.areaCtx;
 		this._creatureCtx = props.creatureCtx;
-
 		this._foodCountPercent = props.foodCountPercent;
+
 		this._foodSize = Math.floor(this._areaSize / this._maxFoodCount);
 		this._creatureSize = Math.floor(this._areaSize / 80);
 		this._creatureSensitivityRadius = this._creatureSize * 2;
