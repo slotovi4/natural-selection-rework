@@ -4,7 +4,7 @@ export const randomValue = ({ min, max }: IRandomValue) => {
 	return Math.round(value);
 };
 
-export const positiveOrNegativeValue = () => Math.random() > 0.5 ? 1 : -1;
+export const positiveOrNegativeValue = () => randomBoolean() ? 1 : -1;
 
 export const randomBoolean = () => Math.random() >= 0.5;
 
