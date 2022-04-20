@@ -16,22 +16,29 @@ export class CreatureConstructor extends Creature {
 	}
 
 	public update() {
-		if (this.energyReserve) {
+		if (this.isDie) {
+			this.drawDieCreature();
+		} else {
 			this.realisticMove();
 			this.bounce();
 			this.energyConsumption();
+			this.processDie();
+			this.drawLivingCreature();
 		}
-
-		this.draw();
 	}
 
 	private init() {
-		this.draw();
+		this.drawLivingCreature();
 	}
 
-	private draw() {
+	private drawLivingCreature() {
 		this.drawBody();
 		this.drawSensitivity();
+	}
+
+	private drawDieCreature() {
+		this.drawBody();
+		this.drawCross();
 	}
 
 	private realisticMove() {
@@ -107,6 +114,15 @@ export class CreatureConstructor extends Creature {
 	 */
 	private energyConsumption() {
 		this.updateEnergyReserve(this.energyReserve - this.speed);
+	}
+
+	/**
+	 * Обработка смерти существа
+	 */
+	private processDie() {
+		if (this.energyReserve <= 0) {
+			this.die();
+		}
 	}
 }
 
