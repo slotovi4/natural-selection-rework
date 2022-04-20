@@ -16,8 +16,12 @@ export class CreatureConstructor extends Creature {
 	}
 
 	public update() {
-		this.realisticMove();
-		this.bounce();
+		if (this.energyReserve) {
+			this.realisticMove();
+			this.bounce();
+			this.energyConsumption();
+		}
+
 		this.draw();
 	}
 
@@ -96,6 +100,13 @@ export class CreatureConstructor extends Creature {
 		}
 
 		return correctedDirection;
+	}
+
+	/**
+	 * Расход энергии
+	 */
+	private energyConsumption() {
+		this.updateEnergyReserve(this.energyReserve - this.speed);
 	}
 }
 
