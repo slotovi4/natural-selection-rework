@@ -4,12 +4,15 @@ export abstract class Creature extends CanvasElement {
 	private _x: number;
 	private _y: number;
 	private _sensitivityRadius: number;
+	private _energyReserve: number;
 
 	private _sensitivity = 1;
 	private _dx = 1;
 	private _dy = 1;
 	private _speed = 1;
+	private _energy = 1;
 
+	private readonly _fps = 60;
 	private readonly _params: IProps['params'];
 
 	public constructor(props: IProps) {
@@ -18,7 +21,9 @@ export abstract class Creature extends CanvasElement {
 		this._params = props.params;
 		this._x = props.params.startX;
 		this._y = props.params.startY;
+
 		this._sensitivityRadius = props.params.sensitivityRadius * this._sensitivity;
+		this._energyReserve = this._energy * this._fps * 10;
 	}
 
 	/**
@@ -33,6 +38,13 @@ export abstract class Creature extends CanvasElement {
 	 */
 	protected get speed() {
 		return this._speed;
+	}
+
+	/**
+	 * Объем энергии существа
+	 */
+	protected get energyReserve() {
+		return this._energyReserve;
 	}
 
 	/**
@@ -67,6 +79,14 @@ export abstract class Creature extends CanvasElement {
 	protected updateDirection({ dx, dy }: IDirectionParams) {
 		this._dx = dx;
 		this._dy = dy;
+	}
+
+	/**
+	 * Обновляет значение остатка энергии существа
+	 * @param newEnergyReserve новое значение остатка энергии
+	 */
+	protected updateEnergyReserve(newEnergyReserve: number) {
+		this._energyReserve = newEnergyReserve;
 	}
 
 	/**
