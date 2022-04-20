@@ -11,6 +11,7 @@ export abstract class Creature extends CanvasElement {
 	private _dy = 1;
 	private _speed = 1;
 	private _energy = 1;
+	private _isDie = false;
 
 	private readonly _fps = 60;
 	private readonly _params: IProps['params'];
@@ -23,28 +24,23 @@ export abstract class Creature extends CanvasElement {
 		this._y = props.params.startY;
 
 		this._sensitivityRadius = props.params.sensitivityRadius * this._sensitivity;
-		this._energyReserve = this._energy * this._fps * 10;
+		this._energyReserve = this._energy * this._fps * 3;
 	}
 
-	/**
-	 * Направление существа по оси xy
-	 */
 	protected get direction() {
 		return { dx: this._dx, dy: this._dy };
 	}
 
-	/**
-	 * Скорость существа
-	 */
 	protected get speed() {
 		return this._speed;
 	}
 
-	/**
-	 * Объем энергии существа
-	 */
 	protected get energyReserve() {
 		return this._energyReserve;
+	}
+
+	protected get isDie() {
+		return this._isDie;
 	}
 
 	/**
@@ -58,6 +54,19 @@ export abstract class Creature extends CanvasElement {
 		this._ctx.fillStyle = 'red';
 		this._ctx.arc(this._x, this._y, size, 0, 2 * Math.PI);
 		this._ctx.fill();
+		this._ctx.closePath();
+	}
+
+	protected drawCross() {
+		const lineSize = 10;
+
+		this._ctx.beginPath();
+		this._ctx.strokeStyle = 'black';
+		this._ctx.moveTo(this._x - lineSize, this._y - lineSize);
+		this._ctx.lineTo(this._x + lineSize, this._y + lineSize);
+		this._ctx.moveTo(this._x + lineSize, this._y - lineSize);
+		this._ctx.lineTo(this._x - lineSize, this._y + lineSize);
+		this._ctx.stroke();
 		this._ctx.closePath();
 	}
 
@@ -111,6 +120,10 @@ export abstract class Creature extends CanvasElement {
 		if (newY > this._height - this._sensitivityRadius || newY < this._sensitivityRadius) {
 			this._dy *= -1;
 		}
+	}
+
+	protected die() {
+		this._isDie = true;
 	}
 }
 
