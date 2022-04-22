@@ -12,7 +12,16 @@ export const degreesToRadians = (degrees: number) => degrees * (Math.PI / 180);
 
 export const radiansToDegrees = (radians: number) => radians * (180 / Math.PI);
 
+export const calcDistance = (fPoint: IPoint, sPoint: IPoint) => {
+	return Math.hypot(fPoint.x - sPoint.x, fPoint.y - sPoint.y);
+};
+
 interface IRandomValue {
 	min: number;
 	max: number;
+}
+
+interface IPoint {
+	x: number;
+	y: number;
 }
