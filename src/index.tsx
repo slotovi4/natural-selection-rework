@@ -4,17 +4,17 @@ import { AppRoutes } from './AppRoutes';
 
 import { createRoot } from 'react-dom/client';
 import { RecoilRoot } from 'recoil';
-import { StrictMode, Suspense } from 'react';
+import { Suspense } from 'react';
 
-const App = () => (
-	<StrictMode>
+const App = () => {
+	return (
 		<RecoilRoot>
 			<Suspense fallback={<div>Loading...</div>}>
 				<AppRoutes />
 			</Suspense>
 		</RecoilRoot>
-	</StrictMode>
-);
+	);
+};
 
 const container = document.getElementById('root');
 

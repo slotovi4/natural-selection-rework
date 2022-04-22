@@ -1,0 +1,1 @@
+export { NaturalSelectionConstructor } from './NaturalSelectionConstructor';
