@@ -4,7 +4,6 @@ import type { ISectorPosition } from './helpers';
 
 export class AreaTree {
 	protected readonly _areaSize: IProps['areaSize'];
-	protected _rootSectorsList: ISector[] = [];
 
 	public constructor({ areaSize }: IProps) {
 		this._areaSize = areaSize;
