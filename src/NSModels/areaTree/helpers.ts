@@ -1,6 +1,6 @@
 /**
- * Разбивает сектор на 4
- * @param sector начальные и конечные координаты сектора
+ * Разбивает сектор на 4 под сектора
+ * @param sectorPosition начальные и конечные координаты сектора
  * @returns массив из 4х новых секторов
  */
 export const splitSector = ({ startPoint, endPoint }: ISectorPosition): ISectorPosition[] => {
@@ -29,12 +29,47 @@ export const splitSector = ({ startPoint, endPoint }: ISectorPosition): ISectorP
 	];
 };
 
+/**
+ * Создает массив точек по границе области
+ * @param areaPosition начальные и конечные координаты области 
+ * @param k уровень вложенности секторов
+ * @returns массив точек на границе
+ */
+export const createAreaBorderPoints = ({ startPoint, endPoint }: ISectorPosition, k: number) => {
+	const areaBorderPointsList: IPoint[] = [];
+	const xDiff = Math.abs(startPoint.x - endPoint.x) / (k || 1);
+	const yDiff = Math.abs(startPoint.y - endPoint.y) / (k || 1);
+
+	for (let i = 0; i <= k; i++) {
+		areaBorderPointsList.push(
+			{
+				x: i * xDiff,
+				y: startPoint.y
+			},
+			{
+				x: i * xDiff,
+				y: endPoint.y
+			},
+			{
+				x: startPoint.x,
+				y: i * yDiff
+			},
+			{
+				x: endPoint.x,
+				y: i * yDiff
+			}
+		);
+	}
+
+	return areaBorderPointsList;
+};
+
 export interface ISectorPosition {
 	startPoint: IPoint;
 	endPoint: IPoint;
 }
 
-interface IPoint {
+export interface IPoint {
 	x: number;
 	y: number;
 }
