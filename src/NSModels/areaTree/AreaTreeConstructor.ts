@@ -8,7 +8,7 @@ import type { ISector } from './AreaTree';
 
 export class AreaTreeConstructor extends AreaTree {
 	private readonly _ctx: IProps['ctx'];
-	private readonly _sectorsNestingLevel = 4;
+	private readonly _sectorsNestingLevel = 3;
 	private readonly _areaSectorPosition: ISector['position'];
 
 	private _areaBorderPoints: IPoint[] = [];
@@ -49,7 +49,9 @@ export class AreaTreeConstructor extends AreaTree {
 	}
 
 	private initAreaBorderPoints() {
-		this._areaBorderPoints = createAreaBorderPoints(this._areaSectorPosition, Math.pow(this._sectorsNestingLevel, 2));
+		const sectorsCountOnOneAreaBorder = 4 * Math.pow(2, this._sectorsNestingLevel - 1);
+
+		this._areaBorderPoints = createAreaBorderPoints(this._areaSectorPosition, sectorsCountOnOneAreaBorder);
 	}
 
 	private drawSectors(sectorsList: ISector[]) {

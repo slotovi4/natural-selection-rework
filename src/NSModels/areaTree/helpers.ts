@@ -32,15 +32,15 @@ export const splitSector = ({ startPoint, endPoint }: ISectorPosition): ISectorP
 /**
  * Создает массив точек по границе области
  * @param areaPosition начальные и конечные координаты области 
- * @param k уровень вложенности секторов
+ * @param sectorsCountOnOneAreaBorder количество секторов граничащих с одной из границ области
  * @returns массив точек на границе
  */
-export const createAreaBorderPoints = ({ startPoint, endPoint }: ISectorPosition, k: number) => {
+export const createAreaBorderPoints = ({ startPoint, endPoint }: ISectorPosition, sectorsCountOnOneAreaBorder: number) => {
 	const areaBorderPointsList: IPoint[] = [];
-	const xDiff = Math.abs(startPoint.x - endPoint.x) / (k || 1);
-	const yDiff = Math.abs(startPoint.y - endPoint.y) / (k || 1);
+	const xDiff = Math.abs(startPoint.x - endPoint.x) / (sectorsCountOnOneAreaBorder || 1);
+	const yDiff = Math.abs(startPoint.y - endPoint.y) / (sectorsCountOnOneAreaBorder || 1);
 
-	for (let i = 0; i <= k; i++) {
+	for (let i = 0; i <= sectorsCountOnOneAreaBorder; i++) {
 		areaBorderPointsList.push(
 			{
 				x: i * xDiff,
