@@ -26,13 +26,6 @@
 		"react/display-name": "off",
 		"react/prop-types": "off",
 		"react/react-in-jsx-scope": "off",
-		"indent": [
-			"error",
-			"tab",
-			{
-				"SwitchCase": 1
-			}
-		],
 		"react/jsx-indent": [
 			"error",
 			"tab"
