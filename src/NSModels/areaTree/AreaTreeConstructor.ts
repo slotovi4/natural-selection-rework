@@ -1,12 +1,12 @@
 import { AreaTree } from './AreaTree';
-import { createAreaBorderPoints } from './helpers';
+import { addBorderPointsToSectors, createAreaBorderPoints } from './helpers';
 
 import type { IPoint } from './helpers';
 import type { ISector } from './AreaTree';
 
 export class AreaTreeConstructor extends AreaTree {
 	private readonly _areaSize: number;
-	private readonly _sectorsNestingLevel = 3;
+	private readonly _sectorsNestingLevel = 1;
 	private readonly _areaSectorPosition: ISector['position'];
 
 	private _areaBorderPoints: IPoint[] = [];
@@ -34,12 +34,13 @@ export class AreaTreeConstructor extends AreaTree {
 	}
 
 	private drawAreaBorderPoints() {
-		this._areaBorderPoints.forEach(point => this.drawBorderPoint(point));
+		this._areaBorderPoints.forEach(point => this.drawBorderPoint(point, ''));
 	}
 
 	private init() {
 		this.initRootSectorsList();
 		this.initAreaBorderPoints();
+		this.initSectorsBorderPoints();
 	}
 
 	private initRootSectorsList() {
@@ -50,6 +51,10 @@ export class AreaTreeConstructor extends AreaTree {
 		const sectorsCountOnOneAreaBorder = 4 * Math.pow(2, this._sectorsNestingLevel - 1);
 
 		this._areaBorderPoints = createAreaBorderPoints(this._areaSectorPosition, sectorsCountOnOneAreaBorder);
+	}
+
+	private initSectorsBorderPoints() {
+		this._rootSectorsList = addBorderPointsToSectors(this._rootSectorsList, this._areaBorderPoints);
 	}
 }
 
