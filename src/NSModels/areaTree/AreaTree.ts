@@ -38,10 +38,19 @@ export class AreaTree extends CanvasElement {
 		});
 	}
 
-	protected drawBorderPoint(point: IPoint) {
-		new PointConstructor({ ctx: this._ctx, point });
+	/**
+	 * Рисует точку на границе области
+	 * @param point координаты точки
+	 * @param color цвет точки
+	 */
+	protected drawBorderPoint(point: IPoint, color: string) {
+		new PointConstructor({ ctx: this._ctx, point, color });
 	}
 
+	/**
+	 * Рисует сектор
+	 * @param sector координаты сектора
+	 */
 	private drawSector(sector: ISectorPosition) {
 		new SectorConstructor({ ctx: this._ctx, sector });
 	}
@@ -55,4 +64,5 @@ export interface ISector extends ISectorData {
 
 interface ISectorData {
 	position: ISectorPosition;
+	borderPoints?: IPoint[];
 }
