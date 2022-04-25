@@ -12,7 +12,7 @@ export const AreaTreeContainer = () => {
 		const sectorCtx = sectorCanvasRef.current?.getContext('2d');
 
 		if (sectorCtx) {
-			const areaTree = new AreaTreeConstructor({ areaSize, ctx: sectorCtx });
+			const areaTree = new AreaTreeConstructor({ ctx: sectorCtx });
 
 			areaTree.draw();
 		}
