@@ -1,12 +1,14 @@
 import { splitSector } from './helpers';
+import { SectorConstructor } from './sector';
+import { PointConstructor } from './point';
 
-import type { ISectorPosition } from './helpers';
+import { CanvasElement } from '../CanvasElement';
 
-export class AreaTree {
-	protected readonly _areaSize: IProps['areaSize'];
+import type { ISectorPosition, IPoint } from './helpers';
 
-	public constructor({ areaSize }: IProps) {
-		this._areaSize = areaSize;
+export class AreaTree extends CanvasElement {
+	public constructor(props: TCanvasElementProps) {
+		super(props);
 	}
 
 	/**
@@ -21,11 +23,31 @@ export class AreaTree {
 			subSectors: k !== 0 ? this.createSector(position, k - 1) : undefined
 		}));
 	}
+
+	/**
+	 * Рисует секторы и подсекторы сектора
+	 * @param sectorsList массив секторов
+	 */
+	protected drawSectors(sectorsList: ISector[]) {
+		sectorsList.forEach(({ position, subSectors }) => {
+			this.drawSector(position);
+
+			if (subSectors && subSectors.length) {
+				this.drawSectors(subSectors);
+			}
+		});
+	}
+
+	protected drawBorderPoint(point: IPoint) {
+		new PointConstructor({ ctx: this._ctx, point });
+	}
+
+	private drawSector(sector: ISectorPosition) {
+		new SectorConstructor({ ctx: this._ctx, sector });
+	}
 }
 
-interface IProps {
-	areaSize: number;
-}
+type TCanvasElementProps = ConstructorParameters<typeof CanvasElement>[0];
 
 export interface ISector extends ISectorData {
 	subSectors?: ISector[];

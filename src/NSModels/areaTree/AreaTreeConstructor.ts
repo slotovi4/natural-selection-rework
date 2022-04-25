@@ -1,23 +1,21 @@
 import { AreaTree } from './AreaTree';
-import { SectorConstructor } from './sector';
-import { PointConstructor } from './point';
 import { createAreaBorderPoints } from './helpers';
 
-import type { IPoint, ISectorPosition } from './helpers';
+import type { IPoint } from './helpers';
 import type { ISector } from './AreaTree';
 
 export class AreaTreeConstructor extends AreaTree {
-	private readonly _ctx: IProps['ctx'];
+	private readonly _areaSize: number;
 	private readonly _sectorsNestingLevel = 3;
 	private readonly _areaSectorPosition: ISector['position'];
 
 	private _areaBorderPoints: IPoint[] = [];
 	private _rootSectorsList: ISector[] = [];
 
-	public constructor(props: IProps) {
+	public constructor(props: TAreaTreeProps) {
 		super(props);
 
-		this._ctx = props.ctx;
+		this._areaSize = this._ctx.canvas.width;
 		this._areaSectorPosition = {
 			startPoint: { x: 0, y: 0 },
 			endPoint: { x: this._areaSize, y: this._areaSize }
@@ -53,28 +51,6 @@ export class AreaTreeConstructor extends AreaTree {
 
 		this._areaBorderPoints = createAreaBorderPoints(this._areaSectorPosition, sectorsCountOnOneAreaBorder);
 	}
-
-	private drawSectors(sectorsList: ISector[]) {
-		sectorsList.forEach(({ position, subSectors }) => {
-			this.drawSector(position);
-
-			if (subSectors && subSectors.length) {
-				this.drawSectors(subSectors);
-			}
-		});
-	}
-
-	private drawBorderPoint(point: IPoint) {
-		new PointConstructor({ ctx: this._ctx, point });
-	}
-
-	private drawSector(sector: ISectorPosition) {
-		new SectorConstructor({ ctx: this._ctx, sector });
-	}
 }
 
 type TAreaTreeProps = ConstructorParameters<typeof AreaTree>[0];
-
-interface IProps extends TAreaTreeProps {
-	ctx: CanvasRenderingContext2D;
-}
