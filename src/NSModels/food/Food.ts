@@ -28,7 +28,7 @@ export abstract class Food extends CanvasElement {
 	}
 }
 
-type TCanvasElementProps = ConstructorParameters<typeof CanvasElement>[0]
+type TCanvasElementProps = ConstructorParameters<typeof CanvasElement>[0];
 
 interface IProps extends TCanvasElementProps {
 	params: IFoodParams;

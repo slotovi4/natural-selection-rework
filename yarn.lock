@@ -1619,10 +1619,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@slotovi4/eslint-config@^1.7.8":
-  version "1.7.8"
-  resolved "https://registry.yarnpkg.com/@slotovi4/eslint-config/-/eslint-config-1.7.8.tgz#d23a512ed8475ed88202eb638b1296790f1c40ae"
-  integrity sha512-DwFrKugzvggSGRzD9enJiQqPGHYh2y4ZAtxTqcOqmjJIqQoGrrMe0sIFt5MSYp7S8dtFG0+MtIyRZMfclCVjgg==
+"@slotovi4/eslint-config@^1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@slotovi4/eslint-config/-/eslint-config-1.7.9.tgz#a7278e4c0f11257572741524e3668371e440cc42"
+  integrity sha512-H2b4yOJQCNgH88Ct/ZjHrrFXtOQ6Dv83fjQ2SSqXv/K39GXIov6n2jFMBwKislcBY1OBF7QY4iLcr/3IxcTZNQ==
 
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
