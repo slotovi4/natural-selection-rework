@@ -1,3 +1,5 @@
+import type { ISector } from './AreaTree';
+
 /**
  * Разбивает сектор на 4 под сектора
  * @param sectorPosition начальные и конечные координаты сектора
@@ -36,12 +38,29 @@ export const splitSector = ({ startPoint, endPoint }: ISectorPosition): ISectorP
  * @returns массив точек на границе
  */
 export const createAreaBorderPoints = ({ startPoint, endPoint }: ISectorPosition, sectorsCountOnOneAreaBorder: number) => {
-	const areaBorderPointsList: IPoint[] = [];
 	const xDiff = Math.abs(startPoint.x - endPoint.x) / (sectorsCountOnOneAreaBorder || 1);
 	const yDiff = Math.abs(startPoint.y - endPoint.y) / (sectorsCountOnOneAreaBorder || 1);
+	const borderPointsList: IPoint[] = [
+		{
+			x: startPoint.x,
+			y: startPoint.y
+		},
+		{
+			x: endPoint.x,
+			y: endPoint.y
+		},
+		{
+			x: startPoint.x,
+			y: endPoint.y
+		},
+		{
+			x: endPoint.x,
+			y: startPoint.y
+		}
+	];
 
-	for (let i = 0; i <= sectorsCountOnOneAreaBorder; i++) {
-		areaBorderPointsList.push(
+	for (let i = 1; i < sectorsCountOnOneAreaBorder; i++) {
+		borderPointsList.push(
 			{
 				x: i * xDiff,
 				y: startPoint.y
@@ -61,7 +80,39 @@ export const createAreaBorderPoints = ({ startPoint, endPoint }: ISectorPosition
 		);
 	}
 
-	return areaBorderPointsList;
+	return borderPointsList;
+};
+
+/**
+ * Заполняет параметр borderPoints всем секторам и подсекторам, по точкам границ родительского сектора
+ * @param sectorsList массив секторов
+ * @param rootSectorBorderPoints массив точек границ родительского сектора
+ * @returns сектора с заполненными данными - borderPoints
+ */
+export const addBorderPointsToSectors = (sectorsList: ISector[], rootSectorBorderPoints: IPoint[]) => {
+	return sectorsList.map(rootSector => {
+		rootSector.borderPoints = getSectorBorderPoints(rootSector.position, rootSectorBorderPoints);
+
+		if (rootSector.subSectors) {
+			rootSector.subSectors = addBorderPointsToSectors(rootSector.subSectors, rootSector.borderPoints);
+		}
+
+		return rootSector;
+	});
+};
+
+/**
+ * Возвращает точки границ области, граничащие с сектором
+ * @param sectorPosition позиция сектора
+ * @param rootSectorBorderPoints тоски границ родительского сектора
+ * @returns массив borderPoints текущего сектора
+ */
+const getSectorBorderPoints = ({ startPoint, endPoint }: ISectorPosition, rootSectorBorderPoints: IPoint[]) => {
+	return rootSectorBorderPoints.filter(({ x, y }) => {
+		const isPointInsideSector = endPoint.x >= x && endPoint.y >= y && startPoint.y <= y && startPoint.x <= x;
+
+		return isPointInsideSector;
+	});
 };
 
 export interface ISectorPosition {
